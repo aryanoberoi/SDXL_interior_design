@@ -1,0 +1,290 @@
+{
+  "82": {
+    "inputs": {
+      "text_positive": "photo of a xxx yyy, zzz, soft light, horizon, sharp, high quality",
+      "text_negative": "",
+      "style": "photo-hdr",
+      "log_prompt": "No",
+      "style_positive": "",
+      "style_negative": true
+    },
+    "class_type": "SDXLPromptStyler",
+    "_meta": {
+      "title": "SDXL Prompt Styler"
+    }
+  },
+  "84": {
+    "inputs": {
+      "text": "living room"
+    },
+    "class_type": "TextInput_",
+    "_meta": {
+      "title": "Text Input ♾️MixlabApp (Room)"
+    }
+  },
+  "85": {
+    "inputs": {
+      "text": "neoclassical"
+    },
+    "class_type": "TextInput_",
+    "_meta": {
+      "title": "Text Input ♾️MixlabApp (Style)"
+    }
+  },
+  "86": {
+    "inputs": {
+      "text": "round centre table"
+    },
+    "class_type": "TextInput_",
+    "_meta": {
+      "title": "Text Input ♾️MixlabApp (Elements)"
+    }
+  },
+  "87": {
+    "inputs": {
+      "text": [
+        "82",
+        0
+      ],
+      "find": "xxx",
+      "replace": [
+        "85",
+        0
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Text Find and Replace"
+    }
+  },
+  "88": {
+    "inputs": {
+      "text": [
+        "87",
+        0
+      ],
+      "find": "yyy",
+      "replace": [
+        "84",
+        0
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Text Find and Replace"
+    }
+  },
+  "89": {
+    "inputs": {
+      "text": [
+        "90",
+        0
+      ]
+    },
+    "class_type": "ShowText|pysssss",
+    "_meta": {
+      "title": "Show Text 🐍"
+    }
+  },
+  "90": {
+    "inputs": {
+      "text": [
+        "88",
+        0
+      ],
+      "find": "zzz",
+      "replace": [
+        "86",
+        0
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Text Find and Replace"
+    }
+  },
+  "91": {
+    "inputs": {
+      "text": [
+        "90",
+        0
+      ],
+      "clip": [
+        "93",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "92": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "93",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "93": {
+    "inputs": {
+      "ckpt_name": "juggernautXL_v9Rdphoto2Lightning.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "94": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "Empty Latent Image"
+    }
+  },
+  "95": {
+    "inputs": {
+      "seed": 0,
+      "steps": 8,
+      "cfg": 1.6,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "99",
+        0
+      ],
+      "positive": [
+        "91",
+        0
+      ],
+      "negative": [
+        "92",
+        0
+      ],
+      "latent_image": [
+        "94",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "96": {
+    "inputs": {
+      "samples": [
+        "95",
+        0
+      ],
+      "vae": [
+        "93",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "97": {
+    "inputs": {
+      "images": [
+        "96",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "98": {
+    "inputs": {
+      "preset": "PLUS (high strength)",
+      "model": [
+        "93",
+        0
+      ]
+    },
+    "class_type": "IPAdapterUnifiedLoader",
+    "_meta": {
+      "title": "IPAdapter Unified Loader"
+    }
+  },
+  "99": {
+    "inputs": {
+      "weight": 1.25,
+      "weight_type": "composition (SDXL)",
+      "combine_embeds": "concat",
+      "start_at": 0,
+      "end_at": 1,
+      "embeds_scaling": "K+V",
+      "model": [
+        "98",
+        0
+      ],
+      "ipadapter": [
+        "98",
+        1
+      ],
+      "image": [
+        "101",
+        0
+      ],
+      "clip_vision": [
+        "102",
+        0
+      ]
+    },
+    "class_type": "IPAdapterAdvanced",
+    "_meta": {
+      "title": "IPAdapter Advanced"
+    }
+  },
+  "100": {
+    "inputs": {
+      "image": "example.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "101": {
+    "inputs": {
+      "interpolation": "LANCZOS",
+      "crop_position": "top",
+      "sharpening": 0.1,
+      "image": [
+        "100",
+        0
+      ]
+    },
+    "class_type": "PrepImageForClipVision",
+    "_meta": {
+      "title": "Prep Image For ClipVision"
+    }
+  },
+  "102": {
+    "inputs": {
+      "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+    },
+    "class_type": "CLIPVisionLoader",
+    "_meta": {
+      "title": "Load CLIP Vision"
+    }
+  }
+}

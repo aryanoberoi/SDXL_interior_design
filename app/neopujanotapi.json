@@ -1,0 +1,890 @@
+{
+  "last_node_id": 125,
+  "last_link_id": 202,
+  "nodes": [
+    {
+      "id": 107,
+      "type": "ImageScale",
+      "pos": [
+        7170.273973663126,
+        403.9508026265926
+      ],
+      "size": {
+        "0": 315,
+        "1": 130
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 176
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            177
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "nearest-exact",
+        1024,
+        1024,
+        "disabled"
+      ]
+    },
+    {
+      "id": 111,
+      "type": "Image Resize",
+      "pos": [
+        7245,
+        -1299
+      ],
+      "size": {
+        "0": 315,
+        "1": 178
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 179
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            195,
+            197
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image Resize"
+      },
+      "widgets_values": [
+        "rescale",
+        "true",
+        "nearest",
+        2,
+        1024,
+        1024
+      ]
+    },
+    {
+      "id": 123,
+      "type": "CR LoRA Stack",
+      "pos": [
+        5933,
+        -502
+      ],
+      "size": [
+        345.1656537319559,
+        400.9731221447588
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "lora_stack",
+          "type": "LORA_STACK",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LORA_STACK",
+          "type": "LORA_STACK",
+          "links": [
+            200
+          ],
+          "shape": 3
+        },
+        {
+          "name": "show_help",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CR LoRA Stack"
+      },
+      "widgets_values": [
+        "On",
+        "HinduPujaRoom XL-000007.safetensors",
+        1,
+        1,
+        "On",
+        "Avrhneoclassicalbedroom.safetensors",
+        1,
+        1,
+        "Off",
+        "None",
+        1,
+        1
+      ]
+    },
+    {
+      "id": 110,
+      "type": "LoadImage",
+      "pos": [
+        6375,
+        -1053
+      ],
+      "size": {
+        "0": 498.733642578125,
+        "1": 619.9317016601562
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            179
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "istockphoto-521806786-170667a (1).webp",
+        "image"
+      ]
+    },
+    {
+      "id": 105,
+      "type": "Efficient Loader",
+      "pos": [
+        6062.273973663126,
+        53.950802626592576
+      ],
+      "size": [
+        513.728759765625,
+        973.8656616210938
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "lora_stack",
+          "type": "LORA_STACK",
+          "link": 200,
+          "slot_index": 0
+        },
+        {
+          "name": "cnet_stack",
+          "type": "CONTROL_NET_STACK",
+          "link": 170,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            171
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "CONDITIONING+",
+          "type": "CONDITIONING",
+          "links": [
+            172
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "CONDITIONING-",
+          "type": "CONDITIONING",
+          "links": [
+            173
+          ],
+          "shape": 3,
+          "slot_index": 2
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            174
+          ],
+          "shape": 3,
+          "slot_index": 3
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            175
+          ],
+          "shape": 3,
+          "slot_index": 4
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "DEPENDENCIES",
+          "type": "DEPENDENCIES",
+          "links": [],
+          "shape": 3,
+          "slot_index": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Efficient Loader"
+      },
+      "widgets_values": [
+        "realvisxlV40_v40LightningBakedvae.safetensors",
+        "Baked VAE",
+        -1,
+        "None",
+        0.8,
+        0.8,
+        "sks, photo of hindu puja room, orange walls, photo of hindu god kept on table, Masterpiece, high quality, best quality, authentic, super detail, interior, neoclassical room, similar color tones,warm light, window on left wall",
+        "curved lines, ornate, baroque, abstract, grunge, logo, text, word, cropped, low quality, normal quality, username, watermark, signature, blurry, soft, soft line, sketch, ugly, logo, pixelated, lowres, door",
+        1024,
+        1024,
+        1
+      ],
+      "color": "#443322",
+      "bgcolor": "#665533",
+      "shape": 1
+    },
+    {
+      "id": 121,
+      "type": "DepthAnythingPreprocessor",
+      "pos": [
+        7723.57268880845,
+        -856.5377815105234
+      ],
+      "size": {
+        "0": 315,
+        "1": 82
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 197
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            199
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DepthAnythingPreprocessor"
+      },
+      "widgets_values": [
+        "depth_anything_vitl14.pth",
+        1024
+      ]
+    },
+    {
+      "id": 122,
+      "type": "Image Canny Filter",
+      "pos": [
+        7776,
+        -1042
+      ],
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 195
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            198
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image Canny Filter"
+      },
+      "widgets_values": [
+        "true",
+        0,
+        1
+      ]
+    },
+    {
+      "id": 108,
+      "type": "PreviewImage",
+      "pos": [
+        7571,
+        429
+      ],
+      "size": {
+        "0": 210,
+        "1": 246
+      },
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 177
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 113,
+      "type": "CR Multi-ControlNet Stack",
+      "pos": [
+        6843.273973663126,
+        -246.04919737340742
+      ],
+      "size": {
+        "0": 418.1999816894531,
+        "1": 454
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image_1",
+          "type": "IMAGE",
+          "link": 198
+        },
+        {
+          "name": "image_2",
+          "type": "IMAGE",
+          "link": 199
+        },
+        {
+          "name": "image_3",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "controlnet_stack",
+          "type": "CONTROL_NET_STACK",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONTROLNET_STACK",
+          "type": "CONTROL_NET_STACK",
+          "links": [
+            170
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "show_help",
+          "type": "STRING",
+          "links": null,
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CR Multi-ControlNet Stack"
+      },
+      "widgets_values": [
+        "On",
+        "control-lora-canny-rank128.safetensors",
+        1,
+        0,
+        1,
+        "On",
+        "control-lora-depth-rank256.safetensors",
+        1,
+        0,
+        1,
+        "Off",
+        "None",
+        1,
+        0,
+        1
+      ]
+    },
+    {
+      "id": 106,
+      "type": "KSampler (Efficient)",
+      "pos": [
+        6749.273973663126,
+        273.9508026265926
+      ],
+      "size": {
+        "0": 325,
+        "1": 586
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 171
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 172
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 173
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 174
+        },
+        {
+          "name": "optional_vae",
+          "type": "VAE",
+          "link": 175
+        },
+        {
+          "name": "script",
+          "type": "SCRIPT",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "CONDITIONING+",
+          "type": "CONDITIONING",
+          "links": [],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "CONDITIONING-",
+          "type": "CONDITIONING",
+          "links": [],
+          "shape": 3,
+          "slot_index": 2
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            176
+          ],
+          "shape": 3,
+          "slot_index": 5
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler (Efficient)"
+      },
+      "widgets_values": [
+        "Sample",
+        120348068521205,
+        null,
+        30,
+        8.5,
+        "euler_ancestral",
+        "normal",
+        1,
+        "auto",
+        "true"
+      ],
+      "color": "#332233",
+      "bgcolor": "#553355",
+      "shape": 1
+    }
+  ],
+  "links": [
+    [
+      170,
+      113,
+      0,
+      105,
+      1,
+      "CONTROL_NET_STACK"
+    ],
+    [
+      171,
+      105,
+      0,
+      106,
+      0,
+      "MODEL"
+    ],
+    [
+      172,
+      105,
+      1,
+      106,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      173,
+      105,
+      2,
+      106,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      174,
+      105,
+      3,
+      106,
+      3,
+      "LATENT"
+    ],
+    [
+      175,
+      105,
+      4,
+      106,
+      4,
+      "VAE"
+    ],
+    [
+      176,
+      106,
+      5,
+      107,
+      0,
+      "IMAGE"
+    ],
+    [
+      177,
+      107,
+      0,
+      108,
+      0,
+      "IMAGE"
+    ],
+    [
+      179,
+      110,
+      0,
+      111,
+      0,
+      "IMAGE"
+    ],
+    [
+      195,
+      111,
+      0,
+      122,
+      0,
+      "IMAGE"
+    ],
+    [
+      197,
+      111,
+      0,
+      121,
+      0,
+      "IMAGE"
+    ],
+    [
+      198,
+      122,
+      0,
+      113,
+      0,
+      "IMAGE"
+    ],
+    [
+      199,
+      121,
+      0,
+      113,
+      1,
+      "IMAGE"
+    ],
+    [
+      200,
+      123,
+      0,
+      105,
+      0,
+      "LORA_STACK"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "Group",
+      "bounding": [
+        -417,
+        1393,
+        140,
+        80
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        -481,
+        1362,
+        140,
+        80
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        -480,
+        1155,
+        1559,
+        850
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Neoclassical bedroom",
+      "bounding": [
+        -590,
+        2103,
+        1819,
+        879
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Cyberpunk bedroom",
+      "bounding": [
+        -630,
+        3102,
+        1913,
+        1026
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Modern living room",
+      "bounding": [
+        -587,
+        4170,
+        2099,
+        1067
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Controlnet",
+      "bounding": [
+        -2675,
+        1574,
+        1719,
+        1556
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Neo classical living room",
+      "bounding": [
+        -480,
+        5291,
+        2106,
+        951
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        -2581,
+        4919,
+        1742,
+        1523
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "cyberpunk living room",
+      "bounding": [
+        -510,
+        6386,
+        2116,
+        1054
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Modern kitchen",
+      "bounding": [
+        -453,
+        7499,
+        1929,
+        1144
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Neoclassical kitchen ",
+      "bounding": [
+        -444,
+        8788,
+        2102,
+        1122
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "cyberpunk kitchen",
+      "bounding": [
+        -557,
+        9959,
+        2075,
+        1261
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        -2842,
+        8155,
+        1937,
+        1704
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        -1383,
+        -1930,
+        3843,
+        2196
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        3103,
+        -2954,
+        2208,
+        3538
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        5782,
+        -1704,
+        2966,
+        2983
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    }
+  ],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}

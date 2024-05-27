@@ -1,0 +1,162 @@
+{
+  "14": {
+    "inputs": {
+      "image": "example.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "15": {
+    "inputs": {
+      "mode": "rescale",
+      "supersample": "true",
+      "resampling": "nearest",
+      "rescale_factor": 2,
+      "resize_width": 1024,
+      "resize_height": 1024,
+      "image": [
+        "14",
+        0
+      ]
+    },
+    "class_type": "Image Resize",
+    "_meta": {
+      "title": "Image Resize"
+    }
+  },
+  "22": {
+    "inputs": {
+      "switch_1": "On",
+      "controlnet_1": "control-lora-canny-rank256.safetensors",
+      "controlnet_strength_1": 1,
+      "start_percent_1": 0,
+      "end_percent_1": 1,
+      "switch_2": "On",
+      "controlnet_2": "control-lora-depth-rank256.safetensors",
+      "controlnet_strength_2": 0.9,
+      "start_percent_2": 0,
+      "end_percent_2": 1,
+      "switch_3": "Off",
+      "controlnet_3": "None",
+      "controlnet_strength_3": 1,
+      "start_percent_3": 0,
+      "end_percent_3": 1,
+      "image_1": [
+        "126",
+        0
+      ],
+      "image_2": [
+        "127",
+        0
+      ]
+    },
+    "class_type": "CR Multi-ControlNet Stack",
+    "_meta": {
+      "title": "🕹️ CR Multi-ControlNet Stack"
+    }
+  },
+  "43": {
+    "inputs": {
+      "ckpt_name": "realvisxlV40_v40LightningBakedvae.safetensors",
+      "vae_name": "Baked VAE",
+      "clip_skip": -2,
+      "lora_name": "ARWCyberpunkInterior.safetensors",
+      "lora_model_strength": 0.8,
+      "lora_clip_strength": 0.8,
+      "positive": "a bedroom, neon lights, dim light, futuristic, orange light, cable, electricity, ornate, detail, science fiction, blue purple neon",
+      "negative": "bad-picture-chill-75v, badhandsv5-neg, badhandv4, By bad artist -neg, easynegative, ng_deepnegative_v1_75t, verybadimagenegative_v1.1-6400",
+      "empty_latent_width": 1024,
+      "empty_latent_height": 1088,
+      "batch_size": 1,
+      "cnet_stack": [
+        "22",
+        0
+      ]
+    },
+    "class_type": "Efficient Loader",
+    "_meta": {
+      "title": "Efficient Loader"
+    }
+  },
+  "44": {
+    "inputs": {
+      "sampler_state": "Sample",
+      "seed": 334633957,
+      "steps": 30,
+      "cfg": 7,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1,
+      "preview_method": "auto",
+      "vae_decode": "true",
+      "model": [
+        "43",
+        0
+      ],
+      "positive": [
+        "43",
+        1
+      ],
+      "negative": [
+        "43",
+        2
+      ],
+      "latent_image": [
+        "43",
+        3
+      ],
+      "optional_vae": [
+        "43",
+        4
+      ]
+    },
+    "class_type": "KSampler (Efficient)",
+    "_meta": {
+      "title": "KSampler (Efficient)"
+    }
+  },
+  "45": {
+    "inputs": {
+      "images": [
+        "44",
+        5
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "126": {
+    "inputs": {
+      "enable_threshold": "true",
+      "threshold_low": 0,
+      "threshold_high": 1,
+      "images": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "Image Canny Filter",
+    "_meta": {
+      "title": "Image Canny Filter"
+    }
+  },
+  "127": {
+    "inputs": {
+      "ckpt_name": "depth_anything_vitl14.pth",
+      "resolution": 1024,
+      "image": [
+        "15",
+        0
+      ]
+    },
+    "class_type": "DepthAnythingPreprocessor",
+    "_meta": {
+      "title": "Depth Anything"
+    }
+  }
+}

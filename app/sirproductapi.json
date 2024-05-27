@@ -1,0 +1,536 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "juggernautXL_v9Rdphoto2Lightning.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "5": {
+    "inputs": {
+      "text": "malformed letters, malformed text",
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "6": {
+    "inputs": {
+      "seed": 1999,
+      "steps": 4,
+      "cfg": 2,
+      "sampler_name": "dpmpp_sde",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "22",
+        0
+      ],
+      "positive": [
+        "56",
+        0
+      ],
+      "negative": [
+        "56",
+        1
+      ],
+      "latent_image": [
+        "48",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "7": {
+    "inputs": {
+      "samples": [
+        "6",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "12": {
+    "inputs": {
+      "text": [
+        "92",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "17": {
+    "inputs": {
+      "image": "example.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image (Input)"
+    }
+  },
+  "18": {
+    "inputs": {
+      "control_net_name": "control-lora-depth-rank256.safetensors"
+    },
+    "class_type": "ControlNetLoaderAdvanced",
+    "_meta": {
+      "title": "Load Advanced ControlNet Model 🛂🅐🅒🅝"
+    }
+  },
+  "21": {
+    "inputs": {
+      "preprocessor": "Zoe_DepthAnythingPreprocessor",
+      "resolution": 1024,
+      "image": [
+        "87",
+        0
+      ]
+    },
+    "class_type": "AIO_Preprocessor",
+    "_meta": {
+      "title": "AIO Aux Preprocessor"
+    }
+  },
+  "22": {
+    "inputs": {
+      "weight": 0.34,
+      "weight_type": "linear",
+      "combine_embeds": "concat",
+      "start_at": 0,
+      "end_at": 1,
+      "embeds_scaling": "V only",
+      "model": [
+        "1",
+        0
+      ],
+      "ipadapter": [
+        "24",
+        0
+      ],
+      "image": [
+        "17",
+        0
+      ],
+      "attn_mask": [
+        "40",
+        0
+      ],
+      "clip_vision": [
+        "25",
+        0
+      ]
+    },
+    "class_type": "IPAdapterAdvanced",
+    "_meta": {
+      "title": "IPAdapter Advanced"
+    }
+  },
+  "24": {
+    "inputs": {
+      "ipadapter_file": "ip-adapter_sdxl_vit-h.safetensors"
+    },
+    "class_type": "IPAdapterModelLoader",
+    "_meta": {
+      "title": "IPAdapter Model Loader"
+    }
+  },
+  "25": {
+    "inputs": {
+      "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+    },
+    "class_type": "CLIPVisionLoader",
+    "_meta": {
+      "title": "Load CLIP Vision"
+    }
+  },
+  "34": {
+    "inputs": {
+      "model_name": "GroundingDINO_SwinT_OGC (694MB)"
+    },
+    "class_type": "GroundingDinoModelLoader (segment anything)",
+    "_meta": {
+      "title": "GroundingDinoModelLoader (segment anything)"
+    }
+  },
+  "35": {
+    "inputs": {
+      "model_name": "sam_vit_l (1.25GB)"
+    },
+    "class_type": "SAMModelLoader (segment anything)",
+    "_meta": {
+      "title": "SAMModelLoader (segment anything)"
+    }
+  },
+  "36": {
+    "inputs": {
+      "prompt": [
+        "47",
+        0
+      ],
+      "threshold": 0.35000000000000003,
+      "sam_model": [
+        "35",
+        0
+      ],
+      "grounding_dino_model": [
+        "34",
+        0
+      ],
+      "image": [
+        "87",
+        0
+      ]
+    },
+    "class_type": "GroundingDinoSAMSegment (segment anything)",
+    "_meta": {
+      "title": "GroundingDinoSAMSegment (segment anything)"
+    }
+  },
+  "40": {
+    "inputs": {
+      "mask": [
+        "36",
+        1
+      ]
+    },
+    "class_type": "InvertMask",
+    "_meta": {
+      "title": "InvertMask"
+    }
+  },
+  "41": {
+    "inputs": {
+      "grow_mask_by": 0,
+      "pixels": [
+        "36",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ],
+      "mask": [
+        "40",
+        0
+      ]
+    },
+    "class_type": "VAEEncodeForInpaint",
+    "_meta": {
+      "title": "VAE Encode (for Inpainting)"
+    }
+  },
+  "42": {
+    "inputs": {
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "destination": [
+        "61",
+        0
+      ],
+      "source": [
+        "36",
+        0
+      ],
+      "mask": [
+        "64",
+        0
+      ]
+    },
+    "class_type": "ImageCompositeMasked",
+    "_meta": {
+      "title": "ImageCompositeMasked"
+    }
+  },
+  "43": {
+    "inputs": {
+      "images": [
+        "42",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "44": {
+    "inputs": {
+      "text_positive": "xxx yyy, in background zzz, soft light, horizon, sharp, high quality",
+      "text_negative": "",
+      "style": "photo-glamour",
+      "log_prompt": "No",
+      "style_positive": "",
+      "style_negative": true
+    },
+    "class_type": "SDXLPromptStyler",
+    "_meta": {
+      "title": "SDXL Prompt Styler"
+    }
+  },
+  "46": {
+    "inputs": {
+      "text": [
+        "44",
+        0
+      ],
+      "find": "xxx",
+      "replace": [
+        "47",
+        0
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Text Find and Replace"
+    }
+  },
+  "47": {
+    "inputs": {
+      "text": "bottle"
+    },
+    "class_type": "TextInput_",
+    "_meta": {
+      "title": "Product"
+    }
+  },
+  "48": {
+    "inputs": {
+      "amount": 1,
+      "samples": [
+        "41",
+        0
+      ]
+    },
+    "class_type": "RepeatLatentBatch",
+    "_meta": {
+      "title": "Repeat Latent Batch"
+    }
+  },
+  "51": {
+    "inputs": {
+      "amount": 0.8,
+      "mask": [
+        "36",
+        1
+      ]
+    },
+    "class_type": "MaskBlur+",
+    "_meta": {
+      "title": "🔧 Mask Blur"
+    }
+  },
+  "52": {
+    "inputs": {
+      "image": "ComfyUI_temp_bbzgh_00087_.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "55": {
+    "inputs": {
+      "expand": 15,
+      "tapered_corners": true,
+      "mask": [
+        "36",
+        1
+      ]
+    },
+    "class_type": "GrowMask",
+    "_meta": {
+      "title": "GrowMask"
+    }
+  },
+  "56": {
+    "inputs": {
+      "strength": 0.88,
+      "start_percent": 0,
+      "end_percent": 1,
+      "positive": [
+        "12",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "control_net": [
+        "18",
+        0
+      ],
+      "image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "ACN_AdvancedControlNetApply",
+    "_meta": {
+      "title": "Apply Advanced ControlNet 🛂🅐🅒🅝"
+    }
+  },
+  "60": {
+    "inputs": {
+      "text": [
+        "92",
+        0
+      ],
+      "show_text": "bottle in a paddle, in background crowded people in indian market, soft light, horizon, sharp, high quality"
+    },
+    "class_type": "ShowTextForGPT",
+    "_meta": {
+      "title": "Show Text ♾️MixlabApp"
+    }
+  },
+  "61": {
+    "inputs": {
+      "device_mode": "AUTO",
+      "image": [
+        "7",
+        0
+      ],
+      "mask": [
+        "66",
+        0
+      ]
+    },
+    "class_type": "LaMaInpaint",
+    "_meta": {
+      "title": "LaMa Remove Object"
+    }
+  },
+  "64": {
+    "inputs": {
+      "dilation": -1,
+      "mask": [
+        "51",
+        0
+      ]
+    },
+    "class_type": "ImpactDilateMask",
+    "_meta": {
+      "title": "Dilate Mask"
+    }
+  },
+  "65": {
+    "inputs": {
+      "image": [
+        "7",
+        0
+      ]
+    },
+    "class_type": "ImpactImageBatchToImageList",
+    "_meta": {
+      "title": "Image batch to Image List"
+    }
+  },
+  "66": {
+    "inputs": {
+      "masks": [
+        "55",
+        0
+      ]
+    },
+    "class_type": "MasksToMaskList",
+    "_meta": {
+      "title": "Masks to Mask List"
+    }
+  },
+  "82": {
+    "inputs": {
+      "text": "in a paddle"
+    },
+    "class_type": "TextInput_",
+    "_meta": {
+      "title": "placement"
+    }
+  },
+  "84": {
+    "inputs": {
+      "text": [
+        "46",
+        0
+      ],
+      "find": "yyy",
+      "replace": [
+        "82",
+        0
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Text Find and Replace"
+    }
+  },
+  "87": {
+    "inputs": {
+      "mode": "resize",
+      "supersample": "false",
+      "resampling": "lanczos",
+      "rescale_factor": 1,
+      "resize_width": 1024,
+      "resize_height": 1024,
+      "image": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "Image Resize",
+    "_meta": {
+      "title": "Image Resize"
+    }
+  },
+  "91": {
+    "inputs": {
+      "text": "crowded people in indian market"
+    },
+    "class_type": "TextInput_",
+    "_meta": {
+      "title": "background"
+    }
+  },
+  "92": {
+    "inputs": {
+      "text": [
+        "84",
+        0
+      ],
+      "find": "zzz",
+      "replace": [
+        "91",
+        0
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Text Find and Replace"
+    }
+  }
+}

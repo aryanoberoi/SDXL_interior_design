@@ -1,0 +1,679 @@
+{
+  "last_node_id": 127,
+  "last_link_id": 213,
+  "nodes": [
+    {
+      "id": 64,
+      "type": "Image Resize",
+      "pos": [
+        -1823.1135558319731,
+        8954.551384288405
+      ],
+      "size": {
+        "0": 315,
+        "1": 178
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 101
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            212,
+            213
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Image Resize"
+      },
+      "widgets_values": [
+        "rescale",
+        "true",
+        "nearest",
+        2,
+        1024,
+        1024
+      ]
+    },
+    {
+      "id": 79,
+      "type": "PreviewImage",
+      "pos": [
+        678,
+        9004
+      ],
+      "size": {
+        "0": 426.0556945800781,
+        "1": 485.24169921875
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 133
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 66,
+      "type": "CR Multi-ControlNet Stack",
+      "pos": [
+        -1356.113555831973,
+        9182.551384288407
+      ],
+      "size": {
+        "0": 418.1999816894531,
+        "1": 454
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image_1",
+          "type": "IMAGE",
+          "link": 212
+        },
+        {
+          "name": "image_2",
+          "type": "IMAGE",
+          "link": 213
+        },
+        {
+          "name": "image_3",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "controlnet_stack",
+          "type": "CONTROL_NET_STACK",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONTROLNET_STACK",
+          "type": "CONTROL_NET_STACK",
+          "links": [
+            134
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "show_help",
+          "type": "STRING",
+          "links": null,
+          "shape": 3,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CR Multi-ControlNet Stack"
+      },
+      "widgets_values": [
+        "On",
+        "control-lora-canny-rank256.safetensors",
+        0.04,
+        0,
+        1,
+        "On",
+        "control-lora-depth-rank256.safetensors",
+        0.9,
+        0,
+        1,
+        "Off",
+        "None",
+        1,
+        0,
+        1
+      ]
+    },
+    {
+      "id": 78,
+      "type": "KSampler (Efficient)",
+      "pos": [
+        228,
+        8893
+      ],
+      "size": {
+        "0": 325,
+        "1": 586
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 128
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 129
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 130
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 131
+        },
+        {
+          "name": "optional_vae",
+          "type": "VAE",
+          "link": 132
+        },
+        {
+          "name": "script",
+          "type": "SCRIPT",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "CONDITIONING+",
+          "type": "CONDITIONING",
+          "links": [],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "CONDITIONING-",
+          "type": "CONDITIONING",
+          "links": [],
+          "shape": 3,
+          "slot_index": 2
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            133
+          ],
+          "shape": 3,
+          "slot_index": 5
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler (Efficient)"
+      },
+      "widgets_values": [
+        "Sample",
+        979401458190227,
+        null,
+        60,
+        7,
+        "euler_ancestral",
+        "normal",
+        1,
+        "auto",
+        "true"
+      ],
+      "color": "#332233",
+      "bgcolor": "#553355",
+      "shape": 1
+    },
+    {
+      "id": 77,
+      "type": "Efficient Loader",
+      "pos": [
+        -363,
+        8919
+      ],
+      "size": {
+        "0": 537.0368041992188,
+        "1": 931.2957763671875
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "lora_stack",
+          "type": "LORA_STACK",
+          "link": null
+        },
+        {
+          "name": "cnet_stack",
+          "type": "CONTROL_NET_STACK",
+          "link": 134,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            128
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "CONDITIONING+",
+          "type": "CONDITIONING",
+          "links": [
+            129
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "CONDITIONING-",
+          "type": "CONDITIONING",
+          "links": [
+            130
+          ],
+          "shape": 3,
+          "slot_index": 2
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            131
+          ],
+          "shape": 3,
+          "slot_index": 3
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            132
+          ],
+          "shape": 3,
+          "slot_index": 4
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": null,
+          "shape": 3
+        },
+        {
+          "name": "DEPENDENCIES",
+          "type": "DEPENDENCIES",
+          "links": [],
+          "shape": 3,
+          "slot_index": 6
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Efficient Loader"
+      },
+      "widgets_values": [
+        "realvisxlV40_v40LightningBakedvae.safetensors",
+        "Baked VAE",
+        -1,
+        "Avrhneoclassicalbedroom.safetensors",
+        1,
+        1,
+        "masterpiece, high quality, best quality, authentic, super detail, interior,neoclassical kitchen, Windows, modern ceiling, similar color tones,warm light",
+        "curved lines, ornate, baroque, abstract, grunge, logo, text, word, cropped, low quality, normal quality, username, watermark, signature, blurry, soft, soft line, sketch, ugly, logo, pixelated, lowres",
+        1024,
+        1024,
+        1
+      ],
+      "color": "#443322",
+      "bgcolor": "#665533",
+      "shape": 1
+    },
+    {
+      "id": 63,
+      "type": "LoadImage",
+      "pos": [
+        -2471.113555831973,
+        8761.551384288401
+      ],
+      "size": {
+        "0": 498.733642578125,
+        "1": 619.9317016601562
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            101
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "kitchen-interior-design-cost (1).jpg",
+        "image"
+      ]
+    }
+  ],
+  "links": [
+    [
+      101,
+      63,
+      0,
+      64,
+      0,
+      "IMAGE"
+    ],
+    [
+      128,
+      77,
+      0,
+      78,
+      0,
+      "MODEL"
+    ],
+    [
+      129,
+      77,
+      1,
+      78,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      130,
+      77,
+      2,
+      78,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      131,
+      77,
+      3,
+      78,
+      3,
+      "LATENT"
+    ],
+    [
+      132,
+      77,
+      4,
+      78,
+      4,
+      "VAE"
+    ],
+    [
+      133,
+      78,
+      5,
+      79,
+      0,
+      "IMAGE"
+    ],
+    [
+      134,
+      66,
+      0,
+      77,
+      1,
+      "CONTROL_NET_STACK"
+    ],
+    [
+      212,
+      64,
+      0,
+      66,
+      0,
+      "IMAGE"
+    ],
+    [
+      213,
+      64,
+      0,
+      66,
+      1,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "title": "Group",
+      "bounding": [
+        -417,
+        1393,
+        140,
+        80
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        -481,
+        1362,
+        140,
+        80
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        -480,
+        1155,
+        1559,
+        850
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Neoclassical bedroom",
+      "bounding": [
+        -590,
+        2103,
+        1819,
+        879
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Cyberpunk bedroom",
+      "bounding": [
+        -638,
+        3089,
+        1913,
+        1026
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Modern living room",
+      "bounding": [
+        -587,
+        4170,
+        2099,
+        1067
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Controlnet",
+      "bounding": [
+        -2578,
+        1969,
+        1719,
+        1556
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Neo classical living room",
+      "bounding": [
+        -480,
+        5291,
+        2106,
+        951
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        -2581,
+        4919,
+        1742,
+        1523
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "cyberpunk living room",
+      "bounding": [
+        -510,
+        6386,
+        2116,
+        1054
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Modern kitchen",
+      "bounding": [
+        -453,
+        7499,
+        1929,
+        1144
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Neoclassical kitchen ",
+      "bounding": [
+        -444,
+        8788,
+        2102,
+        1122
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "cyberpunk kitchen",
+      "bounding": [
+        -557,
+        9959,
+        2075,
+        1261
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        -2842,
+        8155,
+        1937,
+        1704
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        -1383,
+        -1930,
+        3843,
+        2196
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        3103,
+        -2954,
+        2208,
+        3538
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    },
+    {
+      "title": "Group",
+      "bounding": [
+        5782,
+        -1704,
+        2966,
+        2983
+      ],
+      "color": "#3f789e",
+      "font_size": 24
+    }
+  ],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}

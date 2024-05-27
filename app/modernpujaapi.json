@@ -1,0 +1,202 @@
+{
+  "105": {
+    "inputs": {
+      "ckpt_name": "realvisxlV40_v40LightningBakedvae.safetensors",
+      "vae_name": "Baked VAE",
+      "clip_skip": -1,
+      "lora_name": "None",
+      "lora_model_strength": 0.8,
+      "lora_clip_strength": 0.8,
+      "positive": "sks, photo of hindu puja room, photo of hindu god kept on table, ((Modern Style)) ,((best quality)),((masterpiece)),((realistic)), soft lighting, indoors, ceiling light, no humans, floor, day light, high detail, Clean lines, geometric shapes, minimalist, modern, architectural drawing, highly detailed",
+      "negative": "curved lines, ornate, baroque, abstract, grunge, logo, text, word, cropped, low quality, normal quality, username, watermark, signature, blurry, soft, soft line, sketch, ugly, logo, pixelated, lowres, door",
+      "empty_latent_width": 1024,
+      "empty_latent_height": 1024,
+      "batch_size": 1,
+      "lora_stack": [
+        "123",
+        0
+      ],
+      "cnet_stack": [
+        "113",
+        0
+      ]
+    },
+    "class_type": "Efficient Loader",
+    "_meta": {
+      "title": "Efficient Loader"
+    }
+  },
+  "106": {
+    "inputs": {
+      "sampler_state": "Sample",
+      "seed": 1019038275814166,
+      "steps": 25,
+      "cfg": 7.5,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "normal",
+      "denoise": 1,
+      "preview_method": "auto",
+      "vae_decode": "true",
+      "model": [
+        "105",
+        0
+      ],
+      "positive": [
+        "105",
+        1
+      ],
+      "negative": [
+        "105",
+        2
+      ],
+      "latent_image": [
+        "105",
+        3
+      ],
+      "optional_vae": [
+        "105",
+        4
+      ]
+    },
+    "class_type": "KSampler (Efficient)",
+    "_meta": {
+      "title": "KSampler (Efficient)"
+    }
+  },
+  "107": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "width": 1024,
+      "height": 1024,
+      "crop": "disabled",
+      "image": [
+        "106",
+        5
+      ]
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "Upscale Image"
+    }
+  },
+  "108": {
+    "inputs": {
+      "images": [
+        "107",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "110": {
+    "inputs": {
+      "image": "example.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "111": {
+    "inputs": {
+      "mode": "rescale",
+      "supersample": "true",
+      "resampling": "nearest",
+      "rescale_factor": 2,
+      "resize_width": 1024,
+      "resize_height": 1024,
+      "image": [
+        "110",
+        0
+      ]
+    },
+    "class_type": "Image Resize",
+    "_meta": {
+      "title": "Image Resize"
+    }
+  },
+  "113": {
+    "inputs": {
+      "switch_1": "On",
+      "controlnet_1": "control-lora-canny-rank256.safetensors",
+      "controlnet_strength_1": 1,
+      "start_percent_1": 0,
+      "end_percent_1": 1,
+      "switch_2": "On",
+      "controlnet_2": "control-lora-depth-rank256.safetensors",
+      "controlnet_strength_2": 1,
+      "start_percent_2": 0,
+      "end_percent_2": 1,
+      "switch_3": "Off",
+      "controlnet_3": "None",
+      "controlnet_strength_3": 1,
+      "start_percent_3": 0,
+      "end_percent_3": 1,
+      "image_1": [
+        "122",
+        0
+      ],
+      "image_2": [
+        "121",
+        0
+      ]
+    },
+    "class_type": "CR Multi-ControlNet Stack",
+    "_meta": {
+      "title": "🕹️ CR Multi-ControlNet Stack"
+    }
+  },
+  "121": {
+    "inputs": {
+      "ckpt_name": "depth_anything_vitl14.pth",
+      "resolution": 1024,
+      "image": [
+        "111",
+        0
+      ]
+    },
+    "class_type": "DepthAnythingPreprocessor",
+    "_meta": {
+      "title": "Depth Anything"
+    }
+  },
+  "122": {
+    "inputs": {
+      "enable_threshold": "true",
+      "threshold_low": 0,
+      "threshold_high": 1,
+      "images": [
+        "111",
+        0
+      ]
+    },
+    "class_type": "Image Canny Filter",
+    "_meta": {
+      "title": "Image Canny Filter"
+    }
+  },
+  "123": {
+    "inputs": {
+      "switch_1": "On",
+      "lora_name_1": "HinduPujaRoom XL-000007.safetensors",
+      "model_weight_1": 1,
+      "clip_weight_1": 1,
+      "switch_2": "On",
+      "lora_name_2": "JJsModernStyle_XL.safetensors",
+      "model_weight_2": 1,
+      "clip_weight_2": 1,
+      "switch_3": "Off",
+      "lora_name_3": "None",
+      "model_weight_3": 1,
+      "clip_weight_3": 1
+    },
+    "class_type": "CR LoRA Stack",
+    "_meta": {
+      "title": "💊 CR LoRA Stack"
+    }
+  }
+}

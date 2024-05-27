@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room Styler</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.upload-area, .result-area {
+    width: 100%;
+}
+
+.box {
+    border: none;
+    background: #fafafa;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+.select-box {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #004494;
+}
+
+.title {
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logout-button {
+    padding: 10px 20px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #c9302c;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.loading {
+    display: none;
+}
+
+.loading.active {
+    display: block;
+    margin-top: 20px;
+}
+
+#feedback-prompt, #feedback-box {
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    background: #eef2f7;
+    border-radius: 8px;
+}
+
+#feedback-prompt p, #feedback-box textarea {
+    margin-bottom: 20px;
+}
+
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1>Room Styler(Controlnet and IPadapter)</h1>
+    <a class="logout-button" href="https://sincere-bird-good.ngrok-free.app/login/logout">Logout</a>
+  </div>
+  <div class="container">
+    <div class="title"><h1>Style your room!</h1></div><br>
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 80%; margin: 20px auto; background: #fff; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <a href="https://sincere-bird-good.ngrok-free.app/newonlyprompts" style="text-decoration: none; color: #333; background-color: #f0f0f0; padding: 15px 30px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); font-size: 15px;">< Tool 2 </a>
+        <a href="https://sincere-bird-good.ngrok-free.app/interiorb2b" style="text-decoration: none; color: #333; background-color: #f0f0f0; padding: 15px 30px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); font-size: 15px;">Tool 1 ></a>
+    </div>
+    <div class="upload-area">
+      <div class="box">
+        <p>1. Upload a photo of your room</p>
+        <input type="file" id="upload-btn" accept="image/*" onchange="previewImage(event)">
+        <center><img id="image-preview" src="#" alt="Uploaded Image Preview" style="max-width: 300px; display: none;"></center>
+        <p>2. Describe the image you would like to generate.</p>
+        <textarea id="room-input" placeholder="Enter prompts" rows="4" cols="50"></textarea>
+        <button type="button" id="submit-btn">Submit</button>
+        <div class="loading" id="loading-animation">
+            <img src="/static/giphy.gif" alt="AIdeating..." >
+            <br>
+            <center>AIdeating...</center>
+        </div>
+      </div>
+    </div>
+    <div class="result-area">
+      <div class="box">
+        <p>3. Your restyled room image</p>
+        <center><img id="restyled-image" src="#" alt="Restyled Room" style="max-width: 300px; display: none;"></center>
+        <div id="feedback-prompt" style="display: none;">
+          <p>4. Would you like to give feedback on the generated image?</p>
+          <button onclick="showFeedbackForm(true)">Yes</button>
+          <button onclick="showFeedbackForm(false); window.location.reload();">No</button>
+        </div>
+        <div id="feedback-box" style="display:none;">
+          <textarea id="feedback-text" placeholder="Please provide your feedback..." rows="4" cols="50"></textarea>
+          <button onclick="submitFeedback()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+    var outputImageData;
+function previewImage(event) {
+    var input = event.target;
+    var preview = document.getElementById('image-preview');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+document.getElementById('submit-btn').addEventListener('click', function() {
+    var additionalPrompts = document.getElementById('room-input').value; // Get the value from the textarea
+    document.getElementById('loading-animation').classList.add('active');
+    var formData = new FormData();
+    formData.append('additional', additionalPrompts); // Append additional prompts to the formData
+    formData.append('image', document.getElementById('upload-btn').files[0]);
+    sendData(formData);
+});
+
+function sendData(formData) {
+    var xhr = new XMLHttpRequest();
+    var url = 'https://sincere-bird-good.ngrok-free.app/interior3';
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('enctype', 'multipart/form-data');
+    xhr.onreadystatechange = function () {
+        document.getElementById('loading-animation').classList.remove('active');
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var responseData = JSON.parse(xhr.responseText);
+            var restyledImage = document.getElementById('restyled-image');
+            restyledImage.src = 'data:image/jpeg;base64,' + responseData.image;
+            restyledImage.style.display = 'block';
+            document.getElementById('feedback-prompt').style.display = 'block'; // Display feedback prompt
+        }
+    };
+    xhr.send(formData);
+}
+
+function showFeedbackForm(wantsFeedback) {
+    if (wantsFeedback) {
+        document.getElementById('feedback-box').style.display = 'block';
+    } else {
+        document.getElementById('feedback-box').style.display = 'none';
+    }
+    document.getElementById('feedback-prompt').style.display = 'none'; // Hide the prompt after selection
+}
+function submitFeedback() {
+    var feedbackText = document.getElementById('feedback-text').value;
+    var roomDropdown = document.getElementById('room-input');
+    var imageFile = document.getElementById('upload-btn').files[0]; // Input image from file input
+    var formData = new FormData();
+    formData.append('feedback', feedbackText);
+    formData.append('room', roomDropdown.value);
+    if (imageFile) {
+        formData.append('input_image', imageFile);
+    }
+    if (outputImageData) { // Check if the output image data is available
+        formData.append('output_image', outputImageData);
+    }
+    var xhr = new XMLHttpRequest();
+    var url = 'https://sincere-bird-good.ngrok-free.app/feedbacknewinterior'; // Update this URL to your server's endpoint
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('enctype', 'multipart/form-data'); // This is needed for sending files
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                alert('Feedback and details submitted successfully.');
+                window.location.reload(); // Reload the page after successful submission
+            } else {
+                alert('Failed to submit feedback and details.');
+            }
+        }
+    };
+    xhr.send(formData);
+}
+</script>
+</html>

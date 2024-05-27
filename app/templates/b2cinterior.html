@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room Styler</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.upload-area, .result-area {
+    width: 100%;
+}
+
+.box {
+    border: none;
+    background: #fafafa;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+.select-box {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #004494;
+}
+
+.logout-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #c9302c;
+}
+
+.title {
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input[type="file"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.loading {
+    display: none;
+}
+
+.loading.active {
+    display: block;
+    margin-top: 20px;
+}
+
+#feedback-prompt, #feedback-box {
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+    background: #eef2f7;
+    border-radius: 8px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>Room Styler (IPadapter)</h1>
+    <a class="logout-button" href="https://sincere-bird-good.ngrok-free.app/login/logout">Logout</a>
+</div>
+<div class="container">
+    <div class="title"><h1>Style your room!</h1></div>
+    <div class="upload-area">
+      <div class="box">
+        <p>1. Upload a photo of your room</p>
+        <input type="file" id="upload-btn" accept="image/*" onchange="previewImage(event)">
+        <br><br>
+        <center><img id="image-preview" src="#" alt="Uploaded Image Preview" style="max-width: 300px; display: none;"></center>
+        <div class="select-box">
+          <p>2. Choose your room</p>
+          <select id="room-dropdown">
+            <option value="living-room">Living Room</option>
+            <option value="pujaroom">Puja Room</option>
+            <option value="bedroom">Bedroom</option>
+            <option value="kitchen">Kitchen</option>
+          </select>
+        </div>
+        <div class="select-box">
+          <p>3. Choose your Style</p>
+          <select id="style-dropdown">
+            <option value="modern">Modern</option>
+            <option value="neoclassical">Neoclassical</option>
+            <option value="Cyberpunk">Cyberpunk</option>
+          </select>
+        </div>
+        <div class="select-box">
+          <p>4. Input any additional objects or features you would like to see in your image.</p>
+          <textarea id="room-input" placeholder="Enter additional prompts" rows="4" cols="50"></textarea>
+        </div>
+        <button type="button" id="submit-btn">Submit</button>
+        <div class="loading" id="loading-animation">
+            <img src="/static/giphy.gif" alt="AIdeating..." >
+            <br>
+            <center>AIdeating...</center>
+        </div>
+      </div>
+    </div>
+    <div class="result-area">
+      <div class="box">
+        <p>5. Your restyled room image</p>
+        <center><img id="restyled-image" src="#" alt="Restyled Room" style="max-width: 300px; display: none;"></center>
+        <div id="feedback-prompt" style="display: none;">
+          <p>Would you like to give feedback on the generated image?</p>
+          <button onclick="showFeedbackForm(true)">Yes</button>
+          <button onclick="showFeedbackForm(false)">No</button>
+        </div>
+        <div id="feedback-box" style="display:none;">
+          <textarea id="feedback-text" placeholder="Please provide your feedback..." rows="4" cols="50"></textarea>
+          <button onclick="submitFeedback()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+    var outputImageData;
+function previewImage(event) {
+    var input = event.target;
+    var preview = document.getElementById('image-preview');
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+document.getElementById('submit-btn').addEventListener('click', function() {
+    var roomDropdown = document.getElementById('room-dropdown');
+    var styleDropdown = document.getElementById('style-dropdown');
+    var additionalPrompts = document.getElementById('room-input').value;
+    document.getElementById('loading-animation').classList.add('active');
+    var formData = new FormData();
+    formData.append('room', roomDropdown.value);
+    formData.append('style', styleDropdown.value);
+    formData.append('additional', additionalPrompts);
+    formData.append('image', document.getElementById('upload-btn').files[0]);
+    sendData(formData);
+});
+function sendData(formData) {
+    var xhr = new XMLHttpRequest();
+    var url = 'https://sincere-bird-good.ngrok-free.app/getb2c';
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('enctype', 'multipart/form-data');
+    xhr.onreadystatechange = function () {
+        document.getElementById('loading-animation').classList.remove('active');
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var responseData = JSON.parse(xhr.responseText);
+            outputImageData = responseData.image;
+            var restyledImage = document.getElementById('restyled-image');
+            restyledImage.src = 'data:image/jpeg;base64,' + responseData.image;
+            restyledImage.style.display = 'block';
+            document.getElementById('feedback-prompt').style.display = 'block'; // Display feedback prompt
+        }
+    };
+    xhr.send(formData);
+}
+function showFeedbackForm(wantsFeedback) {
+    if (wantsFeedback) {
+        document.getElementById('feedback-box').style.display = 'block';
+    } else {
+        document.getElementById('feedback-box').style.display = 'none';
+    }
+    document.getElementById('feedback-prompt').style.display = 'none'; // Hide the prompt after selection
+}
+function submitFeedback() {
+    var feedbackText = document.getElementById('feedback-text').value;
+    var roomDropdown = document.getElementById('room-dropdown');
+    var styleDropdown = document.getElementById('style-dropdown');
+    var imageFile = document.getElementById('upload-btn').files[0]; 
+    // Input image from file input
+    var formData = new FormData();
+    formData.append('feedback', feedbackText);
+    formData.append('room', roomDropdown.value);
+    formData.append('style', styleDropdown.value);
+    if (imageFile) {
+        formData.append('input_image', imageFile);
+    }
+    if (outputImageData) { // Check if the output image data is available
+        formData.append('output_image', outputImageData);
+    }
+    var xhr = new XMLHttpRequest();
+    var url = 'https://sincere-bird-good.ngrok-free.app/feedbackb2c'; // Update this URL to your server's endpoint
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('enctype', 'multipart/form-data'); // This is needed for sending files
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                alert('Feedback and details submitted successfully.');
+                window.location.reload(); // Reload the page after successful submission
+            } else {
+                alert('Failed to submit feedback and details.');
+            }
+        }
+    };
+    xhr.send(formData);
+}
+</script>
+
+</body>
+</html>
